@@ -11,7 +11,8 @@ Description: Calculates summary statistics at each level of a
     counts by voting place, ward and constituency.
 License: MIT + file LICENSE
 Imports:
-    tibble (>= 1.4.99.9006)
+    tibble (>= 1.4.99.9006),
+    magrittr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
