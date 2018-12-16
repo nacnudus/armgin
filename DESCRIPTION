@@ -8,7 +8,7 @@ Authors@R:
            email = "nacnudus@gmail.com")
 Description: Calculates summary statistics for each combination of grouping
     variables of a data frame, e.g. at all levels of a hierarchy.  For example,
-    vote counts by voting place, ward and constituency.
+    vote counts by voting place, ward, constituency, party and candidate.
 License: MIT + file LICENSE
 Imports:
     tibble (>= 1.4.99.9006),
