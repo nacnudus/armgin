@@ -11,7 +11,7 @@ Description: Calculates summary statistics for each combination of grouping
     vote counts by voting place, ward, constituency, party and candidate.
 License: MIT + file LICENSE
 Imports:
-    tibble (>= 1.4.99.9006),
+    tibble,
     magrittr,
     dplyr
 Encoding: UTF-8
