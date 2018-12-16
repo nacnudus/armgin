@@ -1,3 +1,8 @@
+^appveyor\.yml$
+^README\.html$
+^tags$
+^codecov\.yml$
+^\.travis\.yml$
 ^\.github$
 ^temp\.R$
 ^LICENSE\.md$
