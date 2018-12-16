@@ -1,18 +1,19 @@
 Package: armgin
-Title: Calculate Margins of Hierarchichal Data in Data Frames
+Title: Summarise All Margins of Data Frames
 Version: 0.0.0.9000
 Authors@R:
     person(given = "Duncan",
            family = "Garmonsway",
            role = c("aut", "cre"),
            email = "nacnudus@gmail.com")
-Description: Calculates summary statistics at each level of a
-    hierarchy, for data represented in data frames.  For example, vote
-    counts by voting place, ward and constituency.
+Description: Calculates summary statistics for each combination of grouping
+    variables of a data frame, e.g. at all levels of a hierarchy.  For example,
+    vote counts by voting place, ward and constituency.
 License: MIT + file LICENSE
 Imports:
     tibble (>= 1.4.99.9006),
-    magrittr
+    magrittr,
+    dplyr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
