@@ -14,7 +14,42 @@ knitr::opts_chunk$set(
 ```
 # armgin
 
-The armgin package calculates margins of multi-dimensional data.
+The armgin package summarises all combinations of grouping variables at once.
+For example, vote counts by
+
+```
+* voting place, ward, constituency, party, candidate
+* voting place, ward, constituency, party
+* voting place, ward, constituency
+* voting place, ward,
+* voting place
+```
+
+Or with `hierarchy = FALSE` and grouping by only voting place, ward and
+constituency (for brevity)
+
+```
+* voting place, ward, constituency
+
+* voting place, ward
+* voting place, constituency
+* ward, constituency
+
+* voting place
+* ward
+* constituency
+```
+
+Groups are defined as normal by `dplyr::group_by()` and then piped into
+`margins()`
+
+```{r}
+mtcars %>%
+  group_by(cyl, gear, am) %>%
+  margins(mpg = mean(mpg),
+          hp = min(hp)) %>%
+  print(n = Inf)
+```
 
 ## Installation
 
@@ -25,4 +60,6 @@ install.packages("devtools")
 devtools::install_github("nacnudus/armgin")
 ```
 
-Please note that the 'armgin' project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
+Please note that the 'armgin' project is released with a [Contributor Code of
+Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree
+to abide by its terms.
