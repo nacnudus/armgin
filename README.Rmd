@@ -48,14 +48,27 @@ constituency (for brevity)
 ```
 
 Groups are defined as normal by `dplyr::group_by()` and then piped into
-`margins()`
+`margins()`.
 
 ```{r}
+library(dplyr)
+library(armgin)
+
 mtcars %>%
   group_by(cyl, gear, am) %>%
   margins(mpg = mean(mpg),
           hp = min(hp)) %>%
   print(n = Inf)
+```
+
+Output individual data frames with `bind = FALSE`.
+
+```{r}
+mtcars %>%
+  group_by(cyl, gear, am) %>%
+  margins(mpg = mean(mpg),
+          hp = min(hp),
+          bind = FALSE)
 ```
 
 ## Installation

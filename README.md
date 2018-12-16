@@ -1,6 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Travis build
+status](https://travis-ci.org/nacnudus/armgin.svg?branch=master)](https://travis-ci.org/nacnudus/armgin)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/nacnudus/armgin?branch=master&svg=true)](https://ci.appveyor.com/project/nacnudus/armgin)
+[![Coverage
+status](https://codecov.io/gh/nacnudus/armgin/branch/master/graph/badge.svg)](https://codecov.io/github/nacnudus/armgin?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/armgin)](https://cran.r-project.org/package=armgin)
+
 # armgin
 
 The armgin package summarises all combinations of grouping variables at
@@ -26,9 +36,12 @@ constituency (for brevity)
     * constituency
 
 Groups are defined as normal by `dplyr::group_by()` and then piped into
-`margins()`
+`margins()`.
 
 ``` r
+library(dplyr)
+library(armgin)
+
 mtcars %>%
   group_by(cyl, gear, am) %>%
   margins(mpg = mean(mpg),
@@ -59,6 +72,54 @@ mtcars %>%
 #> 19     6     5     1  19.7   175
 #> 20     8     3     0  15.0   150
 #> 21     8     5     1  15.4   264
+```
+
+Output individual data frames with `bind = FALSE`.
+
+``` r
+mtcars %>%
+  group_by(cyl, gear, am) %>%
+  margins(mpg = mean(mpg),
+          hp = min(hp),
+          bind = FALSE)
+#> [[1]]
+#> # A tibble: 3 x 3
+#> # Groups:   cyl [3]
+#>     cyl   mpg    hp
+#>   <dbl> <dbl> <dbl>
+#> 1     4  26.7    52
+#> 2     6  19.7   105
+#> 3     8  15.1   150
+#> 
+#> [[2]]
+#> # A tibble: 8 x 4
+#> # Groups:   cyl, gear [8]
+#>     cyl  gear   mpg    hp
+#>   <dbl> <dbl> <dbl> <dbl>
+#> 1     4     3  21.5    97
+#> 2     4     4  26.9    52
+#> 3     4     5  28.2    91
+#> 4     6     3  19.8   105
+#> 5     6     4  19.8   110
+#> 6     6     5  19.7   175
+#> 7     8     3  15.0   150
+#> 8     8     5  15.4   264
+#> 
+#> [[3]]
+#> # A tibble: 10 x 5
+#> # Groups:   cyl, gear, am [10]
+#>      cyl  gear    am   mpg    hp
+#>    <dbl> <dbl> <dbl> <dbl> <dbl>
+#>  1     4     3     0  21.5    97
+#>  2     4     4     0  23.6    62
+#>  3     4     4     1  28.0    52
+#>  4     4     5     1  28.2    91
+#>  5     6     3     0  19.8   105
+#>  6     6     4     0  18.5   123
+#>  7     6     4     1  21     110
+#>  8     6     5     1  19.7   175
+#>  9     8     3     0  15.0   150
+#> 10     8     5     1  15.4   264
 ```
 
 ## Installation
