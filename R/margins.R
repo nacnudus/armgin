@@ -43,11 +43,13 @@ margins <- function(.data, ..., bind = TRUE, hierarchy = TRUE) {
   groups <- dplyr::groups(.data)
   if (hierarchy) {
     # Create increaesing combinations of groups, starting with the first
-    combinations <- lapply(seq_along(groups), function(x) {groups[seq_len(x)]})
+    combinations <- lapply(seq_along(groups), function(x) {
+      groups[seq_len(x)]
+    })
   } else {
     # Create all combinations of groups, excluding no groups
     # https://stackoverflow.com/a/27953641/937932
-    combinations  <-
+    combinations <-
       do.call(c, lapply(seq_along(groups), combn, x = groups, simplify = FALSE))
   }
   n <- length(combinations)
@@ -55,16 +57,15 @@ margins <- function(.data, ..., bind = TRUE, hierarchy = TRUE) {
   for (i in rev(seq_len(n))) { # summarise by one column, then two, then etc.
     out[[i]] <-
       .data %>%
-      dplyr::group_by(!!! combinations[[i]]) %>%
+      dplyr::group_by(!!!combinations[[i]]) %>%
       dplyr::summarise(...) %>%
-      dplyr::group_by(!!! combinations[[i]]) # Reapply the original groups
+      dplyr::group_by(!!!combinations[[i]]) # Reapply the original groups
   }
   if (bind) {
     out <-
       out %>%
       dplyr::bind_rows() %>%
-      dplyr::select(!!! groups, dplyr::everything())
+      dplyr::select(!!!groups, dplyr::everything())
   }
   out
 }
-

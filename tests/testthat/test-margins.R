@@ -30,19 +30,25 @@ test_that("hierarchy = FALSE applies all unordered combinations of groups", {
   x <-
     mtcars %>%
     dplyr::group_by(cyl, gear, am) %>%
-    margins(bind = FALSE,
-            hierarchy = FALSE) %>%
+    margins(
+      bind = FALSE,
+      hierarchy = FALSE
+    ) %>%
     lapply(dplyr::groups) %>%
     as.character()
-  expect_equal(x, c("list(cyl)", "list(gear)", "list(am)", "list(cyl, gear)",
-                    "list(cyl, am)", "list(gear, am)", "list(cyl, gear, am)"))
+  expect_equal(x, c(
+    "list(cyl)", "list(gear)", "list(am)", "list(cyl, gear)",
+    "list(cyl, am)", "list(gear, am)", "list(cyl, gear, am)"
+  ))
 })
 
 test_that("summary functions are applied", {
   x <-
     mtcars %>%
     dplyr::group_by(cyl, gear, am) %>%
-    margins(hp = min(hp),
-            mpg = mean(mpg))
+    margins(
+      hp = min(hp),
+      mpg = mean(mpg)
+    )
   expect_equal(x$hp[1], 52)
 })
