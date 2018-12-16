@@ -3,3 +3,4 @@
 export("%>%")
 export(margins)
 importFrom(magrittr,"%>%")
+importFrom(tibble,tibble)
