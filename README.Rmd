@@ -80,6 +80,66 @@ install.packages("devtools")
 devtools::install_github("nacnudus/armgin")
 ```
 
+## Motivating example
+
+What are the salarys of various jobs, grades and professions in the UK's Joint
+Nature Conservation Committee?
+
+```{r}
+library(armgin)
+
+library(dplyr)
+library(tidyr)
+library(readr)
+
+# organogram.csv is from "https://data.gov.uk/sites/default/files/organogram/joint-nature-conservation-committee/30/9/2018/20180930%20JNCC-junior.csv",
+
+organogram <-
+  read_csv("organogram.csv") %>%
+  replace_na(list(Grade = "Other"))
+```
+
+It could bee a hierarchy with the whole JNCC Organisation at the top, then Grade
+within that, then Profession as the bottom grouping.
+
+```{r}
+organogram  %>%
+  group_by(Organisation, Grade, `Professional/Occupational Group`) %>%
+  margins(min = min(`Payscale Minimum (£)`),
+          max = max(`Payscale Maximum (£)`),
+          fte = sum(`Number of Posts in FTE`)) %>%
+  mutate_if(is.character, replace_na, "All") %>%
+  print(n = Inf)
+```
+
+Or it could be a different hierarchy, with Grade grouped inside Profession.
+
+```{r}
+organogram  %>%
+  group_by(Organisation, `Professional/Occupational Group`, Grade) %>%
+  margins(min = min(`Payscale Minimum (£)`),
+          max = max(`Payscale Maximum (£)`),
+          fte = sum(`Number of Posts in FTE`)) %>%
+  mutate_if(is.character, replace_na, "All") %>%
+  print(n = Inf)
+```
+
+Or there could be no hierarchy, with all combinations of Organisation, Grade and
+Profession equally valid subsets.
+
+```{r}
+organogram %>%
+  group_by(Organisation, Grade, `Professional/Occupational Group`) %>%
+  margins(min = min(`Payscale Minimum (£)`),
+          max = max(`Payscale Maximum (£)`),
+          fte = sum(`Number of Posts in FTE`),
+          hierarchy = FALSE) %>%
+  mutate_if(is.character, replace_na, "All") %>%
+  print(n = Inf)
+```
+
+## Contributing
+
 Please note that the 'armgin' project is released with a [Contributor Code of
 Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this project, you agree
 to abide by its terms.
