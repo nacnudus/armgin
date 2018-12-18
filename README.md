@@ -40,6 +40,14 @@ Groups are defined as normal by `dplyr::group_by()` and then piped into
 
 ``` r
 library(dplyr)
+#> 
+#> Attaching package: 'dplyr'
+#> The following objects are masked from 'package:stats':
+#> 
+#>     filter, lag
+#> The following objects are masked from 'package:base':
+#> 
+#>     intersect, setdiff, setequal, union
 library(armgin)
 
 mtcars %>%
@@ -164,7 +172,7 @@ organogram <-
 #> )
 ```
 
-It could bee a hierarchy with the whole JNCC Organisation at the top,
+It could be a hierarchy with the whole JNCC Organisation at the top,
 then Grade within that, then Profession as the bottom grouping.
 
 ``` r

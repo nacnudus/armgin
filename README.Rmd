@@ -99,7 +99,7 @@ organogram <-
   replace_na(list(Grade = "Other"))
 ```
 
-It could bee a hierarchy with the whole JNCC Organisation at the top, then Grade
+It could be a hierarchy with the whole JNCC Organisation at the top, then Grade
 within that, then Profession as the bottom grouping.
 
 ```{r}
