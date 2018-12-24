@@ -36,7 +36,7 @@ constituency (for brevity)
     * constituency
 
 Groups are defined as normal by `dplyr::group_by()` and then piped into
-`margins()`.
+`armgin::margins()`.
 
 ``` r
 library(dplyr)
