@@ -142,8 +142,8 @@ devtools::install_github("nacnudus/armgin")
 
 ## Motivating example
 
-What are the salarys of various jobs, grades and professions in the UK’s
-Joint Nature Conservation Committee?
+What are the salaries of various jobs, grades and professions in the
+UK’s Joint Nature Conservation Committee?
 
 ``` r
 library(armgin)
