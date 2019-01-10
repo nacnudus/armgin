@@ -7,11 +7,18 @@
 margins(.data, ..., bind = TRUE, hierarchy = TRUE)
 }
 \arguments{
-\item{.data}{a tbl}
+\item{.data}{A tbl. All main verbs are S3 generics and provide methods
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{Variables to group by. All tbls accept variable names.
-Some tbls will accept functions of variables. Duplicated groups
-will be silently dropped.}
+\item{...}{Name-value pairs of summary functions. The name will be the
+name of the variable in the result. The value should be an expression
+that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 
 \item{bind}{Whether to combine all margins into one data frame. Default is
 \code{TRUE}.  If \code{FALSE}, returns a list of dataframes, one per margin.}

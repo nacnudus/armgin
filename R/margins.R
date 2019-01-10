@@ -10,7 +10,7 @@
 #' Alternatively use `bind = FALSE` to return a list of data frames, one per
 #' combination of grouping variables.
 #'
-#' @inheritParams dplyr::group_by
+#' @inheritParams dplyr::summarise
 #' @param bind Whether to combine all margins into one data frame. Default is
 #'   `TRUE`.  If `FALSE`, returns a list of dataframes, one per margin.
 #' @param hierarchy Whether to treat the grouping variables as a hierarchy with
