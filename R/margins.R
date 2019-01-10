@@ -42,7 +42,7 @@
 margins <- function(.data, ..., bind = TRUE, hierarchy = TRUE) {
   groups <- dplyr::groups(.data)
   if (hierarchy) {
-    # Create increaesing combinations of groups, starting with the first
+    # Create increasing combinations of groups, starting with the first
     combinations <- lapply(seq_along(groups), function(x) {
       groups[seq_len(x)]
     })
