@@ -4,7 +4,8 @@
 \alias{margins}
 \title{Summarise all margins of a grouped data frame in one go}
 \usage{
-margins(.data, ..., bind = TRUE, hierarchy = TRUE)
+margins(.data, ..., bind = TRUE, method = c("hierarchy", "combination",
+  "individual"), hierarchy = TRUE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -14,7 +15,7 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 name of the variable in the result. The value should be an expression
 that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
 
-These arguments are automatically \link[rlang:quo]{quoted} and
+The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
@@ -23,16 +24,23 @@ these concepts.}
 \item{bind}{Whether to combine all margins into one data frame. Default is
 \code{TRUE}.  If \code{FALSE}, returns a list of dataframes, one per margin.}
 
-\item{hierarchy}{Whether to treat the grouping variables as a hierarchy with
-the first variable at the top and the next variable inside it.  Default is
-\code{TRUE}.  If \code{FALSE}, uses all unordered combinations of the grouping
-variables as margins.}
+\item{method}{One of \code{"hierarchy"}, \code{"combination"}, and \code{"individual"}.
+\itemize{
+\item \code{"hierarchy" will treat the grouping variables as a hierarchy with the first variable at the top and the next variable inside it, e.g. with three variables }a\code{, }b\code{and}c\code{the combinations will be}a\code{alone,}a\code{and}b\code{together, and}a\code{, }b\code{and}c` together.
+\item \code{"combination" summarises by all combinations of grouping variables, e.g. with three variables }a\code{, }b\code{and}c\code{the combinations will be}a\code{alone,}a\code{and}b\code{together,}a\code{and}c\code{together,}b\code{and}c\code{together, and}a\code{, }b\code{and}c` together.
+\item \code{"individual" summarises by one grouping variable at a time, e.g. with three variables }a\code{, }b\code{and}c\code{the combinations will be}a\code{alone,}b\code{alone, and}c` alone.
+}}
+
+\item{hierarchy}{Deprecated.  The default \code{TRUE} is the same as \code{method = "hierarchy"}.  \code{FALSE} will do the same as \code{method = "combination"} and
+generate a message.}
 }
 \description{
 Take a data frame grouped with [dplyr::group_by()) and summarise by
 combinations of the grouping variables, e.g. by the first variable, by the
-first two, the first three, etc.  With \code{hierarchy = FALSE} all combinations
-will be summarised, e.g. \code{a}, \code{a} and \code{b}, \code{a} and \code{c}, \code{b} and \code{c}.
+first two, the first three, etc.  With \code{method = "combination"} all
+combinations will be summarised, e.g. \code{a}, \code{a} and \code{b}, \code{a} and \code{c}, \code{b} and
+\code{c}.  With \code{method = "individual"} each grouping variable will be used once,
+e.g. by the first variable, by the second variable, the third variable, etc.
 
 The output is a data frame with \code{NA} in unused grouping variables.
 Alternatively use \code{bind = FALSE} to return a list of data frames, one per
@@ -44,18 +52,27 @@ mtcars \%>\%
   margins(mpg = mean(mpg, na.rm = TRUE),
           hp = min(hp),
           bind = FALSE,
-          hierarchy = TRUE)
+          method = "hierarchy")
+
 mtcars \%>\%
   dplyr::group_by(cyl, gear, am) \%>\%
   margins(mpg = mean(mpg, na.rm = TRUE),
           hp = min(hp),
           bind = TRUE,
-          hierarchy = TRUE) \%>\%
+          method = "hierarchy") \%>\%
   print(n = Inf)
+
 mtcars \%>\%
   dplyr::group_by(cyl, gear, am) \%>\%
   margins(mpg = mean(mpg, na.rm = TRUE),
           hp = min(hp),
           bind = FALSE,
-          hierarchy = FALSE)
+          method = "combination")
+
+mtcars \%>\%
+  dplyr::group_by(cyl, gear, am) \%>\%
+  margins(mpg = mean(mpg, na.rm = TRUE),
+          hp = min(hp),
+          bind = FALSE,
+          method = "individual")
 }
