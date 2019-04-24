@@ -32,7 +32,7 @@ For example, vote counts by
 * voting place
 ```
 
-Or with `hierarchy = FALSE` and grouping by only voting place, ward and
+Or with `method = "combination"` and grouping by only voting place, ward and
 constituency (for brevity)
 
 ```
@@ -133,7 +133,21 @@ organogram %>%
   margins(min = min(`Payscale Minimum (£)`),
           max = max(`Payscale Maximum (£)`),
           fte = sum(`Number of Posts in FTE`),
-          hierarchy = FALSE) %>%
+          method = "combination") %>%
+  mutate_if(is.character, replace_na, "All") %>%
+  print(n = Inf)
+```
+
+Or each one of Organisation, Grade and Profession could be summarised
+individually.
+
+```{r}
+organogram %>%
+  group_by(Organisation, Grade, `Professional/Occupational Group`) %>%
+  margins(min = min(`Payscale Minimum (£)`),
+          max = max(`Payscale Maximum (£)`),
+          fte = sum(`Number of Posts in FTE`),
+          method = "individual") %>%
   mutate_if(is.character, replace_na, "All") %>%
   print(n = Inf)
 ```

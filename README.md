@@ -22,8 +22,8 @@ once. For example, vote counts by
     * voting place, ward,
     * voting place
 
-Or with `hierarchy = FALSE` and grouping by only voting place, ward and
-constituency (for brevity)
+Or with `method = "combination"` and grouping by only voting place, ward
+and constituency (for brevity)
 
     * voting place, ward, constituency
     
@@ -40,14 +40,6 @@ Groups are defined as normal by `dplyr::group_by()` and then piped into
 
 ``` r
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(armgin)
 
 mtcars %>%
@@ -183,6 +175,8 @@ organogram  %>%
           fte = sum(`Number of Posts in FTE`)) %>%
   mutate_if(is.character, replace_na, "All") %>%
   print(n = Inf)
+#> `mutate_if()` ignored the following grouping variables:
+#> Column `Organisation`
 #> # A tibble: 33 x 6
 #> # Groups:   Organisation [1]
 #>    Organisation          Grade `Professional/Occupation…   min   max    fte
@@ -233,6 +227,8 @@ organogram  %>%
           fte = sum(`Number of Posts in FTE`)) %>%
   mutate_if(is.character, replace_na, "All") %>%
   print(n = Inf)
+#> `mutate_if()` ignored the following grouping variables:
+#> Column `Organisation`
 #> # A tibble: 33 x 6
 #> # Groups:   Organisation [1]
 #>    Organisation          `Professional/Occupation… Grade   min   max    fte
@@ -281,9 +277,11 @@ organogram %>%
   margins(min = min(`Payscale Minimum (£)`),
           max = max(`Payscale Maximum (£)`),
           fte = sum(`Number of Posts in FTE`),
-          hierarchy = FALSE) %>%
+          method = "combination") %>%
   mutate_if(is.character, replace_na, "All") %>%
   print(n = Inf)
+#> `mutate_if()` ignored the following grouping variables:
+#> Column `Organisation`
 #> # A tibble: 77 x 6
 #> # Groups:   Organisation [2]
 #>    Organisation          Grade `Professional/Occupation…   min   max    fte
@@ -365,6 +363,39 @@ organogram %>%
 #> 75 Joint Nature Conserv… S     Human Resources           35175 41889   0.69
 #> 76 Joint Nature Conserv… S     Information Technology    35175 41889   1   
 #> 77 Joint Nature Conserv… S     Science and Engineering   35175 41889  55.4
+```
+
+Or each one of Organisation, Grade and Profession could be summarised
+individually.
+
+``` r
+organogram %>%
+  group_by(Organisation, Grade, `Professional/Occupational Group`) %>%
+  margins(min = min(`Payscale Minimum (£)`),
+          max = max(`Payscale Maximum (£)`),
+          fte = sum(`Number of Posts in FTE`),
+          method = "individual") %>%
+  mutate_if(is.character, replace_na, "All") %>%
+  print(n = Inf)
+#> `mutate_if()` ignored the following grouping variables:
+#> Column `Organisation`
+#> # A tibble: 13 x 6
+#> # Groups:   Organisation [2]
+#>    Organisation          Grade `Professional/Occupation…   min   max    fte
+#>    <chr>                 <chr> <chr>                     <dbl> <dbl>  <dbl>
+#>  1 Joint Nature Conserv… All   All                       16284 63271 179.  
+#>  2 <NA>                  AA    All                       16284 17560   1   
+#>  3 <NA>                  AO    All                       18515 21226   9.3 
+#>  4 <NA>                  H     All                       27398 33159  62   
+#>  5 <NA>                  O     All                       22143 26945  19.6 
+#>  6 <NA>                  Other All                       44671 63271  25.8 
+#>  7 <NA>                  S     All                       35175 41889  61.1 
+#>  8 <NA>                  All   Communications            22143 41889   4.5 
+#>  9 <NA>                  All   Finance                   18515 53196   6.89
+#> 10 <NA>                  All   Human Resources           18515 53196   6.29
+#> 11 <NA>                  All   Information Technology    18515 53196   4   
+#> 12 <NA>                  All   Knowledge and Informatio… 16284 53196  21.9 
+#> 13 <NA>                  All   Science and Engineering   18515 63271 135.
 ```
 
 ## Contributing
