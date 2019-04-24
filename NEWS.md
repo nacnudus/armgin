@@ -1,4 +1,4 @@
-# armgin 0.1.0.9000
+# armgin 0.2.0
 
 * Summarise by individual grouping variables one at a time with `method
     = "individual"`.  The argument `hierarchy` is deprecated and replaced by

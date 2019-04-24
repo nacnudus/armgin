@@ -1,6 +1,6 @@
 Package: armgin
 Title: Summarise All Margins of Data Frames
-Version: 0.1.0
+Version: 0.2.0
 Authors@R:
     person(given = "Duncan",
            family = "Garmonsway",
