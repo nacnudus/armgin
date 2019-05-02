@@ -71,6 +71,32 @@ mtcars %>%
           bind = FALSE)
 ```
 
+## Caveat
+
+Please don't use this package.  You can easily implement the functions yourself.
+If you really want to use a package then use
+[groupie](https://github.com/nacnudus/groupie), which is the same but better.
+
+The trick is to treat sets of grouping variables as 'data', map over them to
+create copies of your actual data grouped by each set of variables, and then map
+again with a `summarise()` function or whatever.
+
+```{r}
+library(dplyr)
+library(purrr)
+
+grouping_vars <- c("vs", "am", "carb")
+map(grouping_vars, group_by_at, .tbl = mtcars) %>%
+  map(summarise,
+      '6 cylinder' = sum(cyl == 6),
+      'Large disp' = sum(disp >= 100),
+      'low gears' = sum(gear <= 4))
+```
+
+The [groupie](https://github.com/nacnudus/groupie) package also wraps the
+[arrangements](https://cran.r-project.org/package=arrangements) package to
+create sets of grouping variables.  This again is very simple to do yourself.
+
 ## Installation
 
 You can install the development version from GitHub with devtools or remotes.

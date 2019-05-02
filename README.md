@@ -40,14 +40,6 @@ Groups are defined as normal by `dplyr::group_by()` and then piped into
 
 ``` r
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(armgin)
 
 mtcars %>%
@@ -129,6 +121,58 @@ mtcars %>%
 #>  9     8     3     0  15.0   150
 #> 10     8     5     1  15.4   264
 ```
+
+## Caveat
+
+Please don’t use this package. You can easily implement the functions
+yourself. If you really want to use a package then use
+[groupie](https://github.com/nacnudus/groupie), which is the same but
+better.
+
+The trick is to treat sets of grouping variables as ‘data’, map over
+them to create copies of your actual data grouped by each set of
+variables, and then map again with a `summarise()` function or whatever.
+
+``` r
+library(dplyr)
+library(purrr)
+
+grouping_vars <- c("vs", "am", "carb")
+map(grouping_vars, group_by_at, .tbl = mtcars) %>%
+  map(summarise,
+      '6 cylinder' = sum(cyl == 6),
+      'Large disp' = sum(disp >= 100),
+      'low gears' = sum(gear <= 4))
+#> [[1]]
+#> # A tibble: 2 x 4
+#>      vs `6 cylinder` `Large disp` `low gears`
+#>   <dbl>        <int>        <int>       <int>
+#> 1     0            3           18          14
+#> 2     1            4            9          13
+#> 
+#> [[2]]
+#> # A tibble: 2 x 4
+#>      am `6 cylinder` `Large disp` `low gears`
+#>   <dbl>        <int>        <int>       <int>
+#> 1     0            4           19          19
+#> 2     1            3            8           8
+#> 
+#> [[3]]
+#> # A tibble: 6 x 4
+#>    carb `6 cylinder` `Large disp` `low gears`
+#>   <dbl>        <int>        <int>       <int>
+#> 1     1            2            4           7
+#> 2     2            0            8           8
+#> 3     3            0            3           3
+#> 4     4            4           10           9
+#> 5     6            1            1           0
+#> 6     8            0            1           0
+```
+
+The [groupie](https://github.com/nacnudus/groupie) package also wraps
+the [arrangements](https://cran.r-project.org/package=arrangements)
+package to create sets of grouping variables. This again is very simple
+to do yourself.
 
 ## Installation
 
