@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#retired)
 [![Travis build
 status](https://travis-ci.org/nacnudus/armgin.svg?branch=master)](https://travis-ci.org/nacnudus/armgin)
 [![AppVeyor build
